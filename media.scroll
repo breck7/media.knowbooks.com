@@ -1,0 +1,86 @@
+// Knowbooks Media — ScrollSet
+//
+// This is the single source of truth for the media appearances gallery:
+// every place Knowbooks (or Breck) has shown up in the media.
+// One concept per appearance, one measure per field, and readme.scroll
+// reads the compiled media.json to build the cards.
+//
+// To add an appearance:
+//  1. if you have a local recording, drop it in this repo
+//  2. add a concept below:
+//       id myAppearance
+//       title The Show Name
+//       outlet SiriusXM, Conan O'Brien Radio
+//       kind audio            // audio, video, or link
+//       kindLabel Listen      // short badge text on the card
+//       src myRecording.m4a   // optional; omit for link-only
+//       poster posters/myAppearance.jpg   // optional card image
+//       url https://...       // optional link to the original
+//       published 2026-10-07
+//       publishedLabel Oct 7, 2026
+//       duration 6:56
+//  3. run `scroll build`
+//
+// A local `src` gives the appearance its own player; a `url` points back at
+// the original. An appearance may have either or both.
+
+buildConcepts media.json
+
+// Schema
+
+idParser
+ extends abstractIdParser
+
+titleParser
+ extends abstractStringMeasureParser
+ description The appearance title, usually the show or segment name.
+
+outletParser
+ extends abstractStringMeasureParser
+ description Where it appeared, like SiriusXM, Conan O'Brien Radio.
+
+kindParser
+ extends abstractStringMeasureParser
+ description audio, video, or link. Chooses the player and badge.
+
+kindLabelParser
+ extends abstractStringMeasureParser
+ description Short badge text shown on the card, like Listen or Watch.
+
+srcParser
+ extends abstractStringMeasureParser
+ description Optional local media file to play (m4a, mp3, mp4).
+
+posterParser
+ extends abstractStringMeasureParser
+ description Card image.
+
+urlParser
+ extends abstractStringMeasureParser
+ description Optional external link to the original appearance.
+
+publishedParser
+ extends abstractStringMeasureParser
+ description Sort key: YYYY-MM-DD, or YYYY-MM-DDThh:mm for same-day entries.
+
+publishedLabelParser
+ extends abstractStringMeasureParser
+ description Human readable form of published, shown on the card.
+
+durationParser
+ extends abstractStringMeasureParser
+ description How long the appearance runs, like 6:56.
+
+// Data (oldest first; the page sorts newest first at runtime)
+
+id mairi
+title The Andy Richter Call-In Show
+outlet SiriusXM, Conan O'Brien Radio
+kind audio
+kindLabel Listen
+src mairi.m4a
+poster posters/mairi.svg
+url https://www.siriusxm.com/player/episode-audio/entity/4f29ba4a-c787-0d68-8290-1517f486e319?utm_medium=shared
+published 2026-10-07
+publishedLabel Oct 7, 2026
+duration 6:56
